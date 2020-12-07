@@ -65,18 +65,47 @@ public class ScoreBoard extends MainActivity {
         return countlist;
     }
 
-    public void calcScore(int selectedCell) {
+    public void onClickScore(View view){
+        view.isClickable();
+        calcScore(view.getId());
+    }
+    public void calcScore(int selectedCell) { //
+        int[] score  = result(values);
+        TextView textView = findViewById(selectedCell);
+        for (int i=0;i<12;i++){
+            if(textView.getId()==getResources().getIdentifier("score"+(i+1),"id","com.example.yacht")){
+                textView.setText(countlist[i]);
+            }
+        }// switch(v.getID()){
+        // case R.id.name1;
+        // case R.id.name2; ...
+        //  Log.i("ID값",v.getResources().getResourceEntryName(v.getID()));
+        //   결과  : name1,name2,...
 
     }
 
-    public void calcBonus() {
-
+    public void calcBonus() {  //1~6 까지 점수 합산후 63넘으면 총점에 30점 추가
+        int semitotal = 0;
+        TextView textView[] = new TextView[6];
+        for (int i=0;i<6;i++){
+            int search = getResources().getIdentifier("score"+(i+1),"id","com.example.yacht");
+            textView[i].findViewById(search);
+            semitotal += Integer.parseInt(textView[i].getText().toString());
+        }
+        if(semitotal>=63){
+            Total+=semitotal;   
+        }
     }
 
-    public void calcTotal() {
-
+    public void calcTotal() {                   //1~12 점수 다 더한다음 보너스점수 여부에 따라 추가
+        TextView textView[] = new TextView[12]; // 총점을 어디에 기입하는지 모름
+        for (int i=0;i<12;i++) {
+            int search = getResources().getIdentifier("score" + (i + 1), "id", "com.example.yacht");
+            textView[i].findViewById(search);
+            Total += Integer.parseInt((textView[i].getText().toString()));
+        }
+        calcBonus();
     }
-
     public void finishRound(int totalScore) {
 
     }
